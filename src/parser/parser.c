@@ -196,7 +196,6 @@ void parse_stmt( parser* parser )
 	RET: return parse_ret( parser );
 	IF: return parse_if( parser );
 	FOR: return parse_for( parser );
-	FN: return parse_fn( parser, NULL );
 	WHILE: return parse_while( parser );
 	DO: return parse_do( parser );
 	ASSIGN: return parse_assign( parser );

@@ -1,4 +1,4 @@
-/* Lets be honest, noone wants to see these anywhere else. */
+/* Noone wants to see these anywhere else. */
 typedef char i8;
 typedef short i16;
 typedef int i32;
