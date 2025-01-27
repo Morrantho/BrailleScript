@@ -1,6 +1,3 @@
-#ifndef BS_VALUE_H
-#define BS_VALUE_H
-
 #define X_VALUE_ENUM( OP, ENUM ) ENUM,
 #define X_VALUE_NAME( OP, ENUM ) ENUM
 
@@ -14,13 +11,13 @@
 	X( OP, ENUM##f64 )\
 	X( OP, ENUM##str )
 
-typedef enum value_type
+enum value_type
 {
 	VALUE_TYPES( op_, value_, X_VALUE_ENUM )
 	value_n
-} value_type;
+};
 
-typedef struct value
+struct value
 {
 	value_type type;
 	union
@@ -29,6 +26,4 @@ typedef struct value
 		f64 f64;
 		str* str;
 	};
-} value;
-
-#endif
+};

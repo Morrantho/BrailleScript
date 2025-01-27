@@ -1,6 +1,3 @@
-#ifndef BS_OPCODE_H
-#define BS_OPCODE_H
-
 #define X_OPCODE_ENUM( TK, ENUM ) ENUM,
 #define X_OPCODE_TOKEN( TK, ENUM ) [ tk_##TK ] = ENUM,
 #define X_OPCODE_LBL( TK, ENUM ) [ ENUM ] = &&ENUM,
@@ -48,5 +45,3 @@
 #define OPCODES( V, X )\
 	OP_UNA( V, X )\
 	OP_BIN( V, X )
-
-#endif

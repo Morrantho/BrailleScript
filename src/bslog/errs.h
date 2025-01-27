@@ -1,6 +1,3 @@
-#ifndef BS_ERRS_H
-#define BS_ERRS_H
-
 #define X_ERR_ENUM( ENUM, FMT ) ENUM,
 #define X_ERR_FMT( ENUM, FMT ) [ ENUM ] = { .name = #ENUM, .desc = FMT },
 
@@ -15,5 +12,3 @@
 	X( V##match, "Expected: %s, Got: %s.\n" )\
 	X( V##expr, "Malformed Expression.\n" )\
 	X( V##args, "Mismatched function args: %s.\n" )
-
-#endif

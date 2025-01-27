@@ -1,6 +1,3 @@
-#ifndef BS_PREC_H
-#define BS_PREC_H
-
 #define X_PREC_ENUM( ENUM ) ENUM,
 
 #define PRECS( V, X )\
@@ -31,4 +28,12 @@
 	X( V##index ) /* [] */\
 	X( V##call )/* () */
 
-#endif
+enum prec
+{
+	PRECS( prec_, X_PREC_ENUM )
+	prec_n
+};
+
+void prec_push( parser* parser, prec prec );
+prec prec_pop( parser* parser );
+prec prec_peek( parser* parser );

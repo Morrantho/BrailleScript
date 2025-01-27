@@ -1,6 +1,3 @@
-#ifndef BS_TOKENS_H
-#define BS_TOKENS_H
-
 #define X_TOKEN_ENUM( ENUM ) ENUM,
 #define X_TOKEN_STR( ENUM ) #ENUM,
 #define X_TOKEN_LBL( ENUM ) &&LBL_##ENUM,
@@ -73,7 +70,6 @@
 	X( V##col ) /* : */\
 	X( V##end ) /* :: */\
 	X( V##then ) /* :. */\
-	X( V##fn ) /* :> */\
 	X( V##cont ) /* :>> */\
 	\
 	X( V##semi ) /* ; */\
@@ -85,5 +81,3 @@
 	X( V##f64 ) /* 0-9. */\
 	X( V##str ) /* " */\
 	X( V##id ) /* a-zA-Z0-9_ */
-
-#endif

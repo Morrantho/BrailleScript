@@ -1,7 +1,4 @@
-#ifndef BS_ASCII_H
-#define BS_ASCII_H
-
-#define X_ASCII_LBL( IDX, LBL ) [ IDX ] = &&LBL,
+#define X_ASCII_LBL( RANGE, LBL ) [ RANGE ] = &&LBL,
 
 #define ASCII( X )\
 	X( 0, EOS )\
@@ -49,5 +46,3 @@
 	X( '}', RC )\
 	X( '~', BNOT )\
 	X( 127, ERR )
-
-#endif

@@ -1,5 +1,9 @@
-#ifndef BS_EXPRS_H
-#define BS_EXPRS_H
+struct parse_rule
+{
+	void* nud;
+	void* led;
+	prec prec;
+};
 
 #define X_EXPR_RULE( ENUM, NUD, LED, PREC )\
 	[ ENUM ] = { .nud = &&NUD, .led = &&LED, .prec = PREC },
@@ -82,5 +86,3 @@
 	X( tk_f64, F64, ERR, prec_none )\
 	X( tk_str, STR, ERR, prec_none )\
 	X( tk_id, REF, ERR, prec_none )
-
-#endif
