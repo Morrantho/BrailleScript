@@ -1,7 +1,8 @@
 struct entry
 {
 	union { str* key; str* name; };
-	value value;
+	value* value;
+	u32 idx; /* hashed index / var index */
 };
 
 struct map

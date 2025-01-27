@@ -17,7 +17,7 @@ struct heap
 	vec pirs; /* vec< ir >: ir stack */
 	/* compiler */
 	vec consts; /* vec< value >: constants */
-	// vec locals; /* vec< var >: locals */
+	vec vars; /* vec< var >: local vars */
 	// vec ops; /* vec< op >: ops */
 	// vec funcs; /* vec< func >: functions */
 	// map globals; /* map< str, value >: globals */

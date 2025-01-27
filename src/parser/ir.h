@@ -1,27 +1,28 @@
+#define X_IRS_ENUM( ENUM, LBL ) ENUM,
+#define X_IRS_LBL( ENUM, LBL ) [ ENUM ] = &&LBL,
+
+#define IRS( V, X )\
+	X( V##none, ERR ) /* used as a marker / stopping point */\
+	X( V##const, CONST )\
+	X( V##ref, REF )\
+	X( V##call, CALL )\
+	X( V##binop, ERR )\
+	X( V##unop, ERR )\
+	X( V##fn, ERR )\
+	X( V##arg, ERR )
+
 enum ir_type
 {
-	ir_none, /* used to track when to stop popping irs of some kind */
-	ir_const,
-	ir_ref,
-	ir_call,
-	ir_binop,
-	ir_unop,
-	ir_fn,
-	ir_arg,
+	IRS( ir_, X_IRS_ENUM )
 	ir_n
 };
 
 struct ir
 {
-	ir_type ir_type;
-	value_type value_type;
-	union
-	{
-		i64 i64;
-		f64 f64;
-		str* str;
-		// opcode opcode;
-	};
+	ir_type ir_type; /* 4 */
+	u32 idx; /* const idx, local idx, fn idx, etc */
+	value value; /* 12 */
+	// var* var;
 };
 
 void ir_logeval( ir* evald );

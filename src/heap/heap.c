@@ -9,10 +9,12 @@ void heap_init( heap* heap )
 	vec_init( &heap->pprecs, sizeof( prec ), 256 );
 	vec_init( &heap->pirs, sizeof( ir ), KB( 64 ) / sizeof( ir ) );
 	vec_init( &heap->consts, sizeof( value ), KB( 64 ) / sizeof( value ) );
+	vec_init( &heap->vars, sizeof( var ), 1024 );
 }
 
 void heap_deinit( heap* heap )
 {
+	free( heap->vars.base );
 	free( heap->consts.base );
 	free( heap->pirs.base );
 	free( heap->pprecs.base );

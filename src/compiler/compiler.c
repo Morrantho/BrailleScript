@@ -2,7 +2,14 @@ void compiler_init( compiler* compiler, heap* heap, parser* parser )
 {
 	compiler->parser = parser;
 	compiler->consts = &heap->consts;
+	compiler->vars = &heap->vars;
 	compiler->log = parser->log;
+}
+
+opcode tk_to_op( token_type tk )
+{
+	static const opcode ops[ tk_n ] = { OPCODES( op_, X_OPCODE_TOKEN ) };
+	return ops[ tk ];
 }
 
 u32 const_push( compiler* compiler, value* value )
@@ -15,22 +22,33 @@ value* const_get( compiler* compiler, u32 idx )
 	return ( value* )vec_get( compiler->consts, idx );
 }
 
-void compile_unary( compiler* compiler, parser* parser )
+u32 var_push( compiler* compiler, str* name, value* value )
 {
-	ir* rhs = vec_pop( parser->irs );
-	ir* op = vec_pop( parser->irs );
-	ir* out = vec_commit( parser->irs );
-	if( una_foldable( rhs ) ){ return una_fold( out, op, rhs ); }
-	/* emit here */
+	var var = { .name = name, .value = value };
+	var.idx = compiler->vars->len;
+	/* TODO: ++ cur fn nvars */
+	return vec_push( compiler->vars, &var );
 }
 
-void compile_binary( compiler* compiler, parser* parser )
+var* var_get( compiler* compiler, str* name )
+{	/* TODO: Only look at the current functions nvars */
+	u32 nvars = compiler->vars->len - 1;
+	for( i32 i = nvars; i >= 0; i-- )
+	{
+		var* var = vec_get( compiler->vars, i );
+		if( var->name == name ){ return var; }
+	}
+	return NULL;
+}
+
+u32 op_push( compiler* compiler, opcode oc, u8 r, u8 a, u8 b )
 {
-	// static void* ops[ tk_n ][ tk_n ] = { };
-	ir* rhs = vec_pop( parser->irs );
-	ir* op = vec_pop( parser->irs );
-	ir* lhs = vec_pop( parser->irs );
-	ir* out = vec_commit( parser->irs );
-	if( bin_foldable( lhs, rhs ) ){ return bin_fold( out, lhs, op, rhs ); }
-	/* emit here. write to out if needed. */
+	op op = { .op = oc, .r = r, .a = a, .b = b };
+	// return vec_push( compiler->ops, &op );
+}
+
+op* op_get( compiler* compiler, u32 idx )
+{
+	// return vec_get( compiler->ops, idx );
+	return 0;
 }
