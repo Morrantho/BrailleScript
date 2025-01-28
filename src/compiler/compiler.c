@@ -7,9 +7,10 @@ void compiler_init( compiler* compiler, heap* heap, parser* parser )
 }
 
 opcode tk_to_op( token_type tk )
-{
-	static const opcode ops[ tk_n ] = { OPCODES( op_, X_OPCODE_TOKEN ) };
-	return ops[ tk ];
+{	/* FIX ME */
+	// static const opcode ops[ tk_n ] = { OPCODES( op_, X_OPCODE_TOKEN ) };
+	// return ops[ tk ];
+	return 0;
 }
 
 u32 const_push( compiler* compiler, value* value )
@@ -43,8 +44,9 @@ var* var_get( compiler* compiler, str* name )
 
 u32 op_push( compiler* compiler, opcode oc, u8 r, u8 a, u8 b )
 {
-	op op = { .op = oc, .r = r, .a = a, .b = b };
+	// op op = { .op = oc, .r = r, .a = a, .b = b };
 	// return vec_push( compiler->ops, &op );
+	return 0;
 }
 
 op* op_get( compiler* compiler, u32 idx )

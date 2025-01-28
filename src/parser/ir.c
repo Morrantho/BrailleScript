@@ -1,6 +1,6 @@
 void ir_logeval( ir* evald )
 {
-	if( evald->ir_type == ir_none ){ return; }
+	if( evald->type == ir_none ){ return; }
 	switch( evald->value.type )
 	{
 		case value_i64:
@@ -12,13 +12,13 @@ void ir_logeval( ir* evald )
 			break;
 		default: break;
 	}
-	evald->ir_type = ir_none;
+	evald->type = ir_none;
 }
 
 ir* ir_push( parser* parser, ir_type it, value_type vt, void* value )
 {
 	ir* pir = vec_commit( parser->irs );
-	pir->ir_type = it;
+	pir->type = it;
 	pir->value.type	= vt;
 	switch( vt )
 	{

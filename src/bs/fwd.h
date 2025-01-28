@@ -1,4 +1,5 @@
 /* Noone wants to see these anywhere else. */
+#define stil static inline
 typedef char i8;
 typedef short i16;
 typedef int i32;

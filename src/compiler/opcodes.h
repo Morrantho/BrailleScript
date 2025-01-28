@@ -1,16 +1,18 @@
-#define X_OPCODE_ENUM( TK, ENUM ) ENUM,
-#define X_OPCODE_TOKEN( TK, ENUM ) [ tk_##TK ] = ENUM,
-#define X_OPCODE_LBL( TK, ENUM ) [ ENUM ] = &&ENUM,
+#define X_UNOP_ENUM2( TK, ENUM ) ENUM,
+#define X_UNOP_ENUM1( TK, ENUM ) VALUE_TYPES( , ENUM##_, X_UNOP_ENUM2 )
 
-#define OP_UNA( V, X )\
+#define X_BINOP_ENUM3( TK, ENUM ) ENUM,
+#define X_BINOP_ENUM2( TK, ENUM ) VALUE_TYPES2( , ENUM##_, X_BINOP_ENUM3 )
+#define X_BINOP_ENUM1( TK, ENUM ) VALUE_TYPES( , ENUM##_, X_BINOP_ENUM2 )
+
+#define UNOPS( V, X )\
 	X( not, V##not )\
 	X( bnot, V##bnot )\
 	X( len, V##len )\
-	X( ret, V##ret )
-#define OP_UNA2( V, X ) /* expanded in unafold.h */\
-	X( add, V##plus ) /* these are laid out specifically to let us */\
-	X( sub, V##neg ) /* share unary + and - with binary + and - */
-#define OP_BIN( V, X )\
+	X( ret, V##ret )\
+	X( add, V##plus )\
+	X( sub, V##minus )
+#define BINOPS( V, X )\
 	X( add, V##add )\
 	X( sub, V##sub )\
 	X( mul, V##mul )\
@@ -41,7 +43,17 @@
 	X( lsheq, V##lsheq )\
 	X( rsheq, V##rsheq )
 
-// X( eof, V##nop )
-#define OPCODES( V, X )\
-	OP_UNA( V, X )\
-	OP_BIN( V, X )
+enum opcode
+{
+	UNOPS( op_, X_UNOP_ENUM1 )
+	BINOPS( op_, X_BINOP_ENUM1 )
+	op_n
+};
+
+struct op
+{
+	opcode op;
+	u8 dest;
+	u8 src1;
+	u8 src2;
+};
