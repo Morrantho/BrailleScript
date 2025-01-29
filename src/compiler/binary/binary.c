@@ -1,4 +1,4 @@
-/* Convert base opcode to compound opcode */
+/* Convert base binary opcode to compound binary opcode */
 stil opcode bin2op( ir* op, ir* l, ir* r )
 {	/* COMPOUND = OPCODE + LEFT * NVALUES + RIGHT */
 	return op->value.i64 + ( l->value.type * value_n + r->value.type );
