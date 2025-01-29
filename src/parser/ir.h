@@ -34,6 +34,11 @@ enum ir_type
 	ir_n
 };
 
+/* Start of compilable IRS */
+#define IR_CMP_BASE ir_const
+/* Amount of compilable IRS */
+#define IR_CMP_N ir_n - IR_CMP_BASE
+
 struct ir
 {
 	ir_type type; /* 4 */

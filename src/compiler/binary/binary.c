@@ -6,9 +6,9 @@ stil opcode bin2op( ir* op, ir* l, ir* r )
 
 /* Convert left and right ir's to 1d index, offset by the first */
 /* compilable ir_type */
-stil u32 bin2idx( ir* l, ir* r, ir_type cmp_base )
+stil u32 bin2idx( ir* l, ir* r )
 {
-	return ( l->type - cmp_base ) * value_n + ( r->type - cmp_base );
+	return ( l->type - IR_CMP_BASE ) * IR_CMP_N + ( r->type - IR_CMP_BASE );
 }
 
 void binary_compile( compiler* c, parser* p )
@@ -18,6 +18,6 @@ void binary_compile( compiler* c, parser* p )
 	ir* op = vec_pop( p->irs );
 	ir* lhs = vec_pop( p->irs );
 	opcode oc = bin2op( op, lhs, rhs );
-	goto *irs[ bin2idx( lhs, rhs, ir_const ) ];
+	goto *irs[ bin2idx( lhs, rhs ) ];
 	CMP_IRS( , X_BINIR_FN1 )
 }

@@ -5,9 +5,9 @@ stil opcode una2op( ir* op, ir* r )
 }
 
 /* Converts ir to 1d index, offset by the first compilable ir_type. */
-stil u32 una2idx( ir* r, ir_type cmp_base )
+stil u32 una2idx( ir* r )
 {
-	return r->type - cmp_base;
+	return r->type - IR_CMP_BASE;
 }
 
 void unary_compile( compiler* c, parser* p )
@@ -16,6 +16,6 @@ void unary_compile( compiler* c, parser* p )
 	ir* rhs = vec_pop( p->irs );
 	ir* op = vec_pop( p->irs ); /* op->value.i64 = opcode */
 	opcode oc = una2op( op, rhs );
-	goto *irs[ una2idx( rhs, ir_const ) ];
+	goto *irs[ una2idx( rhs ) ];
 	CMP_IRS( , X_UNAIR_FN1 )
 }
