@@ -5,10 +5,10 @@ stil opcode unary_op_to_compound( ir* op, ir* r )
 
 void unary_compile( compiler* c, parser* p )
 {
-	static const void* irs[ ] = { IRS( , X_UNAIR_LBL1 ) };
+	static const void* irs[ ] = { CMP_IRS( , X_UNAIR_LBL1 ) };
 	ir* rhs = vec_pop( p->irs );
 	ir* op = vec_pop( p->irs ); /* op->value.i64 = opcode */
 	opcode oc = unary_op_to_compound( op, rhs );
-	goto *irs[ rhs->type ];
-	IRS( , X_UNAIR_FN1 )
+	goto *irs[ rhs->type - ir_const ]; /* offset by cmp irs base */
+	CMP_IRS( , X_UNAIR_FN1 )
 }

@@ -1,0 +1,4 @@
+Create a 2nd IR type. Have one for IRs that can be compiled,
+and one for IRs that simply store parse metadata. This will vastly
+reduce the number of generated functions, labels, and calls to those
+functions;

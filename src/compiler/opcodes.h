@@ -1,6 +1,8 @@
+/* Generates VALUE_N * UNOP per unary opcode */
 #define X_UNOP_ENUM2( TK, ENUM ) ENUM,
 #define X_UNOP_ENUM1( TK, ENUM ) VALUE_TYPES( , ENUM##_, X_UNOP_ENUM2 )
 
+/* Generates VALUE_N * VALUE_N * BINOP per binary opcode */
 #define X_BINOP_ENUM3( TK, ENUM ) ENUM,
 #define X_BINOP_ENUM2( TK, ENUM ) VALUE_TYPES2( , ENUM##_, X_BINOP_ENUM3 )
 #define X_BINOP_ENUM1( TK, ENUM ) VALUE_TYPES( , ENUM##_, X_BINOP_ENUM2 )
@@ -12,6 +14,7 @@
 	X( ret, V##ret )\
 	X( add, V##plus )\
 	X( sub, V##minus )
+
 #define BINOPS( V, X )\
 	X( add, V##add )\
 	X( sub, V##sub )\
