@@ -1,8 +1,8 @@
 #define X_IR_ENUM( ENUM ) ENUM,
-/* Generates label addresses for: compiler/unary/unary.c */
+/* Generates label pointers in: compiler/unary/unary.c */
 #define X_UNAIR_LBL1( ENUM ) &&unary_##ENUM,
 #define X_UNAIR_FN1( ENUM ) unary_##ENUM: return unary_##ENUM( c, oc, rhs );
-/* Generates label addresses for: compiler/binary/binary.c */
+/* Generates label pointers in: compiler/binary/binary.c */
 #define X_BINIR_LBL2( ENUM ) &&binary_##ENUM,
 #define X_BINIR_LBL1( ENUM ) CMP_IRS2( ENUM##_, X_BINIR_LBL2 )
 /* Generates labels and calls for: compiler/binary/binary.c */
@@ -13,6 +13,9 @@
 	X( V##none )\
 	X( V##fn )\
 	X( V##arg )
+
+#define IR_CMP_BASE ir_const /* start of compilable IRs */
+#define IR_CMP_N ( ir_n - IR_CMP_BASE ) /* N compilable IRs */
 
 #define CMP_IRS( V, X ) /* Compilable */\
 	X( V##const )\
@@ -33,11 +36,6 @@ enum ir_type
 	IRS( ir_, X_IR_ENUM )
 	ir_n
 };
-
-/* Start of compilable IRS */
-#define IR_CMP_BASE ir_const
-/* Amount of compilable IRS */
-#define IR_CMP_N ir_n - IR_CMP_BASE
 
 struct ir
 {

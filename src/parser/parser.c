@@ -103,7 +103,7 @@ void parse_assign( parser* parser )
 void parse_unary( parser* parser )
 {
 	ir* unary = vec_commit( parser->irs );
-	unary->value.i64 = tk_to_op( parser->token.type );
+	unary->value.i64 = tk_to_op( parser->token.type ); /* FIX: bugged */
 	parse_match( parser, parser->token.type );  /* consume operator */
 	pstate_push( parser, ps_unary_end );
 	pstate_push( parser, ps_expr );
@@ -117,7 +117,7 @@ void parse_unary_end( parser* parser )
 void parse_binary( parser* parser )
 {
 	ir* binary = vec_commit( parser->irs );
-	binary->value.i64 = tk_to_op( parser->token.type );
+	binary->value.i64 = tk_to_op( parser->token.type ); /* FIX: bugged */
 	parse_match( parser, parser->token.type ); /* consume operator */
 	pstate_push( parser, ps_binary_end );
 	pstate_push( parser, ps_expr );

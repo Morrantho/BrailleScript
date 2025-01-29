@@ -19,6 +19,7 @@
 #include "../compiler/unary/ref.c"
 #include "../compiler/unary/call.c"
 #include "../compiler/unary/unary.c"
+#include "../compiler/binary/cast.c"
 #include "../compiler/binary/const.c"
 #include "../compiler/binary/fold.c"
 #include "../compiler/binary/ref.c"
