@@ -14,7 +14,6 @@
 #include "../parser/precs.c"
 #include "../parser/ir.c"
 #include "../parser/parser.c"
-#include "../compiler/func.c"
 #include "../compiler/unary/const.c"
 #include "../compiler/unary/fold.c"
 #include "../compiler/unary/ref.c"

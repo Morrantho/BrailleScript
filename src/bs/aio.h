@@ -28,7 +28,6 @@
 #include "../parser/ir.h"
 #include "../parser/parser.h"
 #include "../compiler/opcodes.h"
-#include "../compiler/func.h"
 #include "../compiler/unary/unary.h"
 #include "../compiler/binary/binary.h"
 #include "../compiler/compiler.h"
