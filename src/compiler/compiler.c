@@ -3,13 +3,15 @@ void compiler_init( compiler* compiler, heap* heap, parser* parser )
 	compiler->parser = parser;
 	compiler->consts = &heap->consts;
 	compiler->vars = &heap->vars;
+	compiler->ops = &heap->ops;
+	compiler->funcs = &heap->funcs;
 	compiler->log = parser->log;
 }
 /* Yields a base opcode for binary and unary operators. Base opcodes all
 ** start from the first existing value_type, e.g. value_i64
 */
 i64 tk_to_op( token_type tk )
-{
+{	/* FIX: op_add_i64, op_plus_i64, op_sub_i64, op_minus_i64 */
 	static const opcode ops[ tk_n ] = { OPCODES( op_, X_OP_MAP ) };
 	return ops[ tk ];
 }

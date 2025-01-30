@@ -7,6 +7,8 @@ struct compiler
 	parser* parser;
 	vec* consts; /* vec< value > */
 	vec* vars; /* vec< var >: function local vars */
+	vec* ops; /* vec< op >: bytecode */
+	vec* funcs; /* vec< func > function metadata */
 	bslog* log;
 };
 

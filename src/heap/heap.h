@@ -18,8 +18,8 @@ struct heap
 	/* compiler */
 	vec consts; /* vec< value >: constants */
 	vec vars; /* vec< var >: local vars */
-	// vec ops; /* vec< op >: ops */
-	// vec funcs; /* vec< func >: functions */
+	vec ops; /* vec< op >: ops */
+	vec funcs; /* vec< func >: functions */
 	// map globals; /* map< str, value >: globals */
 	/* vm */
 	// vec calls; /* vec< frame >: call stack */

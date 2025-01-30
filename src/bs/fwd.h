@@ -48,6 +48,7 @@ typedef struct parser parser;
 
 typedef enum opcode opcode;
 typedef struct op op;
+typedef struct func func;
 typedef struct compiler compiler;
 
 typedef struct heap heap;
