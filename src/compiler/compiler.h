@@ -7,7 +7,7 @@ struct compiler
 };
 
 void compiler_init( compiler* compiler, heap* heap, parser* parser );
-opcode tk_to_op( token_type tk );
+u32 tk_to_op( token_type tk ); /* returns a base opcode, not a real one */
 u32 const_push( compiler* compiler, value* value );
 value* const_get( compiler* compiler, u32 idx );
 u32 var_push( compiler* compiler, str* name, value* value );

@@ -5,12 +5,13 @@ void compiler_init( compiler* compiler, heap* heap, parser* parser )
 	compiler->vars = &heap->vars;
 	compiler->log = parser->log;
 }
-
-opcode tk_to_op( token_type tk )
-{	/* FIX ME */
-	// static const opcode ops[ tk_n ] = { OPCODES( op_, X_OPCODE_TOKEN ) };
-	// return ops[ tk ];
-	return 0;
+/* Yields a base opcode for binary and unary operators. Base opcodes all
+** start from the first existing value_type, e.g. value_i64
+*/
+u32 tk_to_op( token_type tk )
+{
+	static const opcode ops[ tk_n ] = { OPCODES( op_, X_OP_MAP ) };
+	return ops[ tk ];
 }
 
 u32 const_push( compiler* compiler, value* value )

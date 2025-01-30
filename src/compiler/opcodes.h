@@ -1,6 +1,9 @@
 #define UNOPS_BASE op_not_i64
 #define BINOPS_BASE op_add_i64
 
+/* All base opcodes start at the first defined value_type: i64 */
+#define X_OP_MAP( TK, ENUM ) [ tk_##TK ] = ENUM##_i64,
+
 #define X_OP_VALUE2( ENUM ) ENUM,
 #define X_OP_VALUE( TK, ENUM ) VALUE_TYPES( ENUM##_, , X_OP_VALUE2 )
 
@@ -45,11 +48,14 @@
 	X( lsheq, V##lsheq )\
 	X( rsheq, V##rsheq )
 
+#define OPCODES( V, X )\
+	UNOPS( V, X )\
+	UNOPS2( V, X )\
+	BINOPS( V, X )
+
 enum opcode
 {
-	UNOPS( op_, X_OP_VALUE )
-	UNOPS2( op_, X_OP_VALUE )
-	BINOPS( op_, X_OP_VALUE )
+	OPCODES( op_, X_OP_VALUE )
 	op_n
 };
 
