@@ -22,16 +22,47 @@ void parse_match( parser* parser, token_type type )
 void parse_ret( parser* parser )
 {
 	parse_match( parser, tk_ret );
+	// pstate_push( parser, ps_ret_end );
+	// pstate_push( parser, ps_expr );
+}
+
+void parse_ret_end( parser* parser )
+{
+
 }
 
 void parse_if( parser* parser )
 {
 	parse_match( parser, tk_if );
+	// pstate_push( parser, ps_then );
+	// pstate_push( parser, ps_expr );
+}
+
+void parse_if_then( parser* parser )
+{
+	parse_match( parser, tk_then );
+	// pstate_push( parser, );
+}
+
+void parse_if_body( parser* parser )
+{
+	// pstate_push( parser, ps_if_body );
+	// pstate_push( parser, ps_stmt );
+}
+
+void parse_if_end( parser* parser )
+{
+	parse_match( parser, tk_end );
 }
 
 void parse_for( parser* parser )
 {
 	parse_match( parser, tk_for );
+}
+
+void parse_for_end( parser* parser )
+{
+
 }
 
 void parse_args( parser* parser, i64 nargs )
@@ -61,7 +92,6 @@ void parse_fn( parser* parser, str* name )
 	/* body */
 	pstate_push( parser, ps_fn_end );
 	pstate_push( parser, ps_fn_body );
-	pstate_push( parser, ps_stmt );
 }
 
 void parse_fn_body( parser* parser )
@@ -103,7 +133,7 @@ void parse_assign( parser* parser )
 void parse_unary( parser* parser )
 {
 	ir* unary = vec_commit( parser->irs );
-	unary->value.i64 = tk_to_op( parser->token.type ); /* FIX: bugged */
+	unary->value.i64 = tk_to_op( parser->token.type );
 	parse_match( parser, parser->token.type );  /* consume operator */
 	pstate_push( parser, ps_unary_end );
 	pstate_push( parser, ps_expr );
@@ -117,7 +147,7 @@ void parse_unary_end( parser* parser )
 void parse_binary( parser* parser )
 {
 	ir* binary = vec_commit( parser->irs );
-	binary->value.i64 = tk_to_op( parser->token.type ); /* FIX: bugged */
+	binary->value.i64 = tk_to_op( parser->token.type );
 	parse_match( parser, parser->token.type ); /* consume operator */
 	pstate_push( parser, ps_binary_end );
 	pstate_push( parser, ps_expr );

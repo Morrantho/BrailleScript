@@ -13,7 +13,9 @@ void parser_init( parser* parser, heap* heap, lexer* lexer, compiler* compiler )
 void parse_match( parser* parser, token_type type );
 void parse_ret( parser* parser );
 void parse_if( parser* parser );
+void parse_if_end( parser* parser );
 void parse_for( parser* parser );
+void parse_if_end( parser* parser );
 void parse_args( parser* parser, i64 nargs );
 void parse_fn( parser* parser, str* name );
 void parse_fn_body( parser* parser );
