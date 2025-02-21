@@ -1,0 +1,28 @@
+TODO:
+
+Rework Op struct to accept larger operand inputs.
+We need OP_LOADK and OP_LOADG and OP_LOADL
+
+Make: CONSTREF so we know that a var is a const.
+
+Const indices may grow large since they are one array.
+
+Use GetLocals( )->len for reserving scratch registers.
+
+When done compiling a function, make sure to set: compliler->fn = NULL
+Find a way to map ++ and -- to PREINC and POSTINC opcodes.
+
+DONE:
+
+Make Env its own Map, so we can store exclusively U16s for better caching.
+Bytecode array
+Constant array
+Locals array
+Function metadata array
+Everything uses accessors now, no true globals.
+Finish Map.
+EvalUnaErr() takes opcode for debugging.
+Dont return offset 0 for the first element pushed to an arena.
+Take the awful realloc() copies with contiguous arenas.
+tokens to opcodes are done
+arenas are done

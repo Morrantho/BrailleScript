@@ -1,25 +1,93 @@
-struct vec
+typedef struct Vec
 {
-	i8* base;
-	union { u32 len; u32 top; };
-	u32 max;
-	u32 szof;
-};
+	Void *base;
+	union{ U32 len; U32 top; };
+	U32 max;
+	U32 szof;
+} Vec;
 
-void vec_init( vec* vec, u32 szof, u32 max );
-void* vec_ptr( vec* vec, offset off );
-void vec_reset( vec* vec );
-void vec_grow( vec* vec );
-u32 vec_push( vec* vec, void* value );
-void* vec_pop( vec* vec );
-offset vec_pops( vec* vec );
-void vec_set( vec* vec, u32 idx, void* value );
-void* vec_get( vec* vec, u32 idx );
-offset vec_gets( vec* vec, u32 idx );
-void* vec_peek( vec* vec );
-offset vec_peeks( vec* vec );
-void* vec_peekn( vec* vec, u32 idx );
-offset vec_peekns( vec* vec, u32 idx );
-void* vec_commit( vec* vec );
-offset vec_commits( vec* vec );
-void vec_free( vec* vec );
+Vec *GetConsts( )
+{
+	static Vec consts = { 0 };
+	return &consts;
+}
+
+Vec *GetLocals( )
+{
+	static Vec locals = { 0 };
+	return &locals;
+}
+
+Vec *GetGlobals( )
+{
+	static Vec globals = { 0 };
+	return &globals;
+}
+
+Vec *GetCode( )
+{
+	static Vec code = { 0 };
+	return &code;
+}
+
+Vec *GetFuncs( )
+{
+	static Vec funcs = { 0 };
+	return &funcs;
+}
+
+Void VecAlloc( Vec *vec, U32 max, U32 szof )
+{
+	vec->base = malloc( max * szof );
+	vec->len = 0;
+	vec->max = max;
+	vec->szof = szof;
+}
+
+Void *VecCommit( Vec *vec )
+{
+	if( vec->len > vec->max )
+	{
+		vec->max <<= 1;
+		vec->base = realloc( vec->base, vec->max * vec->szof );
+	}
+	return ( I8* )vec->base + vec->len++ * vec->szof;
+}
+
+U32 VecPush( Vec *vec, Void *src )
+{
+	Void *dest = VecCommit( vec );
+	memcpy( dest, src, vec->szof );
+	return vec->len - 1;
+}
+
+Void *VecPop( Vec* vec )
+{
+	if( vec->len == 0 ){ return vec->base; }
+	return ( I8* )vec->base + --vec->len * vec->szof;
+}
+
+Void VecSet( Vec *vec, U32 idx, Void *src )
+{
+	if( idx >= vec->len ){ return; }
+	Void *dest = ( I8* )vec->base + idx * vec->szof;
+	memcpy( dest, src, vec->szof );
+}
+
+Void *VecGet( Vec *vec, U32 idx )
+{
+	if( idx >= vec->len ){ return vec->base; }
+	return ( I8* )vec->base + idx * vec->szof;
+}
+
+Void *VecPeek( Vec *vec )
+{
+	if( vec->len == 0 ){ return vec->base; }
+	return ( I8* )vec->base + ( vec->len - 1 ) * vec->szof;
+}
+
+Void *VecPeekN( Vec *vec, U32 peek )
+{
+	if( peek >= vec->len ){ return vec->base; }
+	return ( I8* )vec->base + ( vec->len - 1 - peek ) * vec->szof;
+}

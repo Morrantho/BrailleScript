@@ -1,0 +1,9 @@
+CONST_CONST: return BinConstConst( lhs, op, rhs );
+CONST_REF: 	return BinConstRef( lhs, op, rhs );
+CONST_CALL: return BinConstCall( lhs, op, rhs );
+REF_CONST: return BinRefConst( lhs, op, rhs );
+REF_REF: return BinRefRef( lhs, op, rhs );
+REF_CALL: return BinRefCall( lhs, op, rhs );
+CALL_CONST: return BinCallConst( lhs, op, rhs );
+CALL_REF: return BinCallRef( lhs, op, rhs );
+CALL_CALL: return BinCallCall( lhs, op, rhs );

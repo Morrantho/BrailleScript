@@ -1,31 +1,21 @@
-rm -f bin/*
-
-CC="gcc"
-SRC="src/bs/bs.c"
-OBJ="bin/bs.s"
-BIN="bin/bs"
-ASM="-S -masm=intel -fverbose-asm"
+CC=gcc
+ASM="-S -fverbose-asm -masm=intel"
+WARN="-Wall -Wextra"
+NOWARN="-Wno-unused-parameter -Wno-unused-variable -Wno-override-init"
 STD="-std=c2x"
-FAST="-Ofast -flto -fwhole-program"
-WARN="-Wall -Wextra -Wno-override-init "
-WARN=$WARN"-Wno-unused-variable -Wno-unused-parameter"
+REL="-Ofast -flto -fwhole-program -s -DNDEBUG"
+DBG="-g -O0 -DDEBUG"
+BIN="bs"
+OBJ=$BIN.s
+SRC=$BIN.c
 LIB="-lm"
-DUMP="bin/bs_dump.s"
 
-if [ "$1" == "dbg" ]; then
-	$CC $SRC $ASM $WARN $STD -g -o $OBJ # compile to asm
-	$CC $OBJ -g -o $BIN $LIB # link
-	objdump -d -M intel $BIN > $DUMP
-fi
+REL_CMP="$CC $ASM $WARN $NOWARN $STD $REL src/$SRC -o bin/$OBJ"
+REL_LNK="$CC $REL bin/$OBJ -o bin/$BIN $LIB"
 
-if [ "$1" == "fdbg" ]; then
-	$CC $SRC $ASM $WARN $STD -g -o $OBJ # compile to asm
-	$CC $OBJ $FAST -g -o $BIN $LIB # link
-	objdump -d -M intel $BIN > $DUMP
-fi
+DBG_CMP="$CC $ASM $WARN $NOWARN $STD $DBG src/$SRC -o bin/$OBJ"
+DBG_LNK="$CC $DBG bin/$OBJ -o bin/$BIN $LIB"
 
-if [ "$1" == "rel" ]; then
-	$CC $SRC $ASM $WARN $STD $FAST -s -o $OBJ # compile to asm
-	$CC $OBJ $FAST -s -o $BIN $LIB # link
-	objdump -d -M intel $BIN > $DUMP
-fi
+[ "$1" == "rel" ] && { $REL_CMP; $REL_LNK; }
+[ "$1" == "dbg" ] && { $DBG_CMP; $DBG_LNK; }
+objdump -d -M intel bin/$BIN > bin/dump.s

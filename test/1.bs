@@ -1,5 +1,1 @@
-# Nothing yet
-
-add:( x, y )
-	@x + y
-::
+log( "hello world!!!" )

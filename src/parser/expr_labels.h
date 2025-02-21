@@ -1,0 +1,10 @@
+EOS: node = ParseEos( parser ); goto LED;
+ERR: node = ParseErr( parser ); goto LED;
+UNARY: node = ParseUnary( parser, rule->prec ); goto LED;
+BINARY: node = ParseBinary( parser, &node, rule->prec ); goto LED;
+GROUP: node = ParseGroup( parser ); goto LED;
+CALL: node = ParseCall( parser ); goto LED;
+I64: node = ParseI64( parser ); goto LED;
+F64: node = ParseF64( parser ); goto LED; 
+STR: node = ParseStr( parser ); goto LED;
+REF: node = ParseRef( parser ); goto LED;
