@@ -54,8 +54,9 @@ Evar *EnvGet( Env *env, String *name )
 	{
 		Evar *evar = &env->base[ idx ];
 		if( !evar->idx ){ return evar; }
-		Var *var = EvarToVar( evar );
-		if( var->name == name ){ return evar; }
+		// Var *var = EvarToVar( evar );
+		// if( var->name == name ){ return evar; }
+		if( evar->offset == name->offset ){ return evar; }
 	}
 	I8 *cstr = ArenaOff( GetStrings( ), name->offset );
 	Throw( "Failed to find Evar: %s in Env.\n", cstr );
