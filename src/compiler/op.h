@@ -24,8 +24,15 @@ U32 PackAB( U8 O, U16 A, U16 B )
 	return idx;
 }
 
+Void UnpackAB( U32 ins, U8 *O, U16 *A, U16 *B )
+{
+	*O = ( ins >> 26 ) & 63;	/* 6 */
+	*A = ( ins >> 13 ) & 8191;	/* 13 */
+	*B = ( ins ) & 8191;		/* 13 */
+}
+
 U32 PackABC( U8 O, U8 A, U16 B, U16 C )
-{ /* op: 6, a: 8, b: 9, c: 9 */
+{ /* OP: 6, A: 8, B: 9, C: 9 */
 	U32 idx;
 	*( OpCommit( &idx ) ) =
 		( ( O & 63 )  << 26 ) | /* 6 */
@@ -33,6 +40,14 @@ U32 PackABC( U8 O, U8 A, U16 B, U16 C )
 		( ( B & 511 ) << 9 )  | /* 9 */
 		( ( C & 511 ) );		/* 9 */
 	return idx;
+}
+
+Void UnpackABC( U32 ins, U8 *O, U8 *A, U16 *B, U16 *C )
+{
+	*O = ( ins >> 26 ) & 63;	/* 6 */
+	*A = ( ins >> 18 ) & 255;	/* 8 */
+	*B = ( ins >> 9 ) & 511;	/* 9 */
+	*C = ( ins ) & 511;			/* 9 */
 }
 
 U32 PackABX( U8 O, U8 A, U32 BX )
@@ -43,6 +58,13 @@ U32 PackABX( U8 O, U8 A, U32 BX )
 		  ( ( A  & 255 ) << 18 ) |	/* 8 */
 		  ( ( BX & 262143 ) );		/* 18 */
 	return idx;
+}
+
+Void UnpackABX( U32 ins, U8 *O, U8 *A, U32 *BX )
+{
+	*O  = ( ins >> 26 ) & 63;	/* 6 */
+	*A  = ( ins >> 18 ) & 255;	/* 8 */
+	*BX = ( ins ) & 262143;		/* 18 */
 }
 
 U32 PackASBX( U8 O, U8 A, I32 SBX )
@@ -56,22 +78,35 @@ U32 PackASBX( U8 O, U8 A, I32 SBX )
 	return idx;
 }
 
+Void UnpackASBX( U32 ins, U8 *O, U8 *A, I32 *SBX )
+{
+	*O = ( ins >> 26 ) & 63;			/* 6 */
+	*A = ( ins >> 18 ) & 255;			/* 8 */
+	*SBX = ( ins & 262143 ) - 131071;	/* 18 */
+}
+
 U32 PackAX( U8 O, U32 AX )
 { /* op: 6, a: 26 */
 	U32 idx;
 	*( OpCommit( &idx ) ) =
-		( ( O & 63 ) << 26 ) | /* 6 */
-		( ( AX & 67108863 ) ); /* 26 */
+		( ( O & 63 ) << 26 ) |	/* 6 */
+		( ( AX & 67108863 ) );	/* 26 */
 	return idx;
 }
 
-Void OpLog( Op *op )
+Void UnpackAX( U32 ins, U8 *O, U32 *A )
 {
-	U8 O   = ( *op >> 26 ) & 63;  /* 6 */
-	U16 A  = ( *op >> 18 ) & 255; /* 8 */
-	U16 BX = ( *op ) & 262143;	  /* 18 */
-	I8 *S = OpToStr( O );
-	printf( "%s A[ %d ] BX[ %d ]\n", S, A, BX );
+	*O = ( ins >> 26 ) & 63;
+	*A = ins & 67108863;
+}
+
+Void OpLog( Op *op )
+{ /* Assume ABX for now, Unpack methods aren't mapped to opcodes yet. */
+	U8 O, A;
+	U32 BX;
+	UnpackABX( *op, &O, &A, &BX );
+	I8 *op_str = OpToStr( O );
+	printf( "%s A[ %d ] BX[ %d ]\n", op_str, A, BX );
 }
 
 Void OpLogAll( )
