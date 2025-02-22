@@ -35,18 +35,18 @@ Void FnCommit( )
 }
 
 U32 ConstPush( Value value )
-{
+{ /* 26 bit idx returned */
 	Compiler *compiler = GetCompiler( );
 	if( compiler->fn ){ compiler->fn->nconsts++; }
 	return VecPush( GetConsts( ), &value );
 }
 
 Value *ConstGet( U32 idx )
-{
+{ /* 26 bit idx */
 	return VecGet( GetConsts( ), idx );
 }
 
-Var *LocalPush( U32 *out_idx, Func *fn, String *name, Value value )
+Var *LocalPush( U8 *dest_reg, Func *fn, String *name, Value value )
 {
 	if( !fn ){ return NULL; }
 	fn->nlocals++;
@@ -54,11 +54,11 @@ Var *LocalPush( U32 *out_idx, Func *fn, String *name, Value value )
 	Var *var = VecCommit( locals );
 	var->name = name;
 	var->value = value;
-	*out_idx = locals->len - 1;
+	*dest_reg = locals->len - 1;
 	return var;
 }
 
-Var *LocalGet( U32 *out_idx, Func *fn, String *name )
+Var *LocalGet( U8 *dest_reg, Func *fn, String *name )
 {
 	if( !fn ){ return NULL; }
 	Vec *locals = GetLocals( );
@@ -67,28 +67,28 @@ Var *LocalGet( U32 *out_idx, Func *fn, String *name )
 	for( ; end >= start; end-- )
 	{
 		Var *var = VecGet( locals, end );
-		if( var->name->offset == name->offset ){ *out_idx = end; return var; }
+		if( var->name->offset == name->offset ){ *dest_reg = end; return var; }
 	}
 	return NULL;
 }
 
-Var *GlobalPush( U32 *out_idx, String *name, Value value )
+Var *GlobalPush( U8 *dest_reg, String *name, Value value )
 {
 	Vec *globals = GetGlobals( );
-	U32 idx = globals->len;
+	U32 idx = globals->len; /* 26 bit max */
 	Var *var = VecCommit( globals );
 	var->name = name;
 	var->value = value;
 	EnvPut( GetEnv( ), name, idx );
-	*out_idx = idx;
+	*dest_reg = idx;
 	return var;
 }
 
-Var *GlobalGet( U32 *out_idx, String *name )
+Var *GlobalGet( U8 *dest_reg, String *name )
 {
 	Evar *evar = EnvGet( GetEnv( ), name );
 	if( !evar->idx ){ return NULL; }
-	*out_idx = evar->idx; /* its globals index */
+	*dest_reg = evar->idx; /* 26 bit global index */
 	return EvarToVar( evar );
 }
 
@@ -99,6 +99,6 @@ OpCode TkToOp( TokenType type )
 }
 
 Void CompilerInit( )
-{
-	Var *base = VecCommit( GetGlobals( ) ); /* Reserve globals[ 0 ] */
+{ /* Reserve globals[ 0 ] for EnvGet() idx comparisons */
+	Var *base = VecCommit( GetGlobals( ) );
 }
