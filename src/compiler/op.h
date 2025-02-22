@@ -70,11 +70,10 @@ Void UnpackABX( U32 ins, U8 *O, U8 *A, U32 *BX )
 U32 PackASBX( U8 O, U8 A, I32 SBX )
 { /* op: 6, a: 8, b: signed 18 */
 	U32 idx;
-	U32 bias = SBX + 131071;
-	*( I32* )( OpCommit( &idx ) ) =
-		  ( ( O   & 63 )  << 26 ) | /* 6 */
-		  ( ( A   & 255 ) << 18 ) | /* 8 */
-		  ( ( bias & 262143 ) ); /* 18 */
+	*( OpCommit( &idx ) ) =
+		( ( O   & 63 )  << 26 ) | /* 6 */
+		( ( A   & 255 ) << 18 ) | /* 8 */
+		( ( SBX + 131071 ) & 262143 ); /* 18 */
 	return idx;
 }
 
@@ -98,22 +97,4 @@ Void UnpackAX( U32 ins, U8 *O, U32 *A )
 {
 	*O = ( ins >> 26 ) & 63;
 	*A = ins & 67108863;
-}
-
-Void OpLog( Op *op )
-{ /* Assume ABX for now, Unpack methods aren't mapped to opcodes yet. */
-	U8 O, A;
-	U32 BX;
-	UnpackABX( *op, &O, &A, &BX );
-	I8 *op_str = OpToStr( O );
-	printf( "%s A[ %d ] BX[ %d ]\n", op_str, A, BX );
-}
-
-Void OpLogAll( )
-{
-	Vec *code = GetCode( );
-	for( U32 i = 0; i < code->len; i++ )
-	{
-		OpLog( VecGet( code, i ) );
-	}
 }

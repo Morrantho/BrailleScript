@@ -52,6 +52,6 @@ U32 CompileAssign( String *name, ParseNode *rhs )
 	U8 dest_reg = 0;
 	Var *var = GlobalGet( &dest_reg, name );
 	if( !compiler->fn ){ return GlobalAssign( dest_reg, var, name, rhs ); }
-	if( var ){ return GlobalAssign( dest_reg, var, name, rhs ); } /* global assign */
-	return LocalAssign( compiler->fn, name, rhs ); /* local assign */
+	if( var ){ return GlobalAssign( dest_reg, var, name, rhs ); }
+	return LocalAssign( compiler->fn, name, rhs );
 }
