@@ -10,7 +10,6 @@ The goal of **BrailleScript** is to simplify or reduce common everyday programmi
 
 * ```#``` : **Single-line comment**
 * ```:```: **Assignment**
-* ```:>``` : **Function definition**
 * ```.:``` : **if**
 * ```:.``` : **then**
 * ```..``` : **else**
@@ -148,19 +147,16 @@ log( bits )
 
 ## Functions
 ```bs
-# There are 2 ways to define a function.
 
-add:>( x, y )
+add:( x, y )
 	@x + y
 ::
 
-:> sub( x, y )
+sub:( x, y )
 	@x - y
 ::
 
-# There may be support for double-colon definitions as well, since it looks a bit more appealing:
-
-mul::>( x, y )
+mul:( x, y )
 	@x * y
 ::
 
